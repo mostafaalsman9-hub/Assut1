@@ -1,0 +1,88 @@
+{
+  "rules": {
+    "users": {
+      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'",
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || root.child('users').child(auth.uid).child('role').val() === 'OWNER')",
+        ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'",
+        ".validate": "newData.hasChildren(['name','email','role','status']) && newData.child('role').val().matches(/^(OWNER|ADMIN|SUB-ADMIN|STUDENT)$/) && newData.child('status').val().matches(/^(PENDING|ACTIVE|SUSPENDED|DISABLED)$/) && (newData.child('role').val() !== 'OWNER' || $uid === auth.uid && data.child('role').val() === 'OWNER')"
+      },
+      ".indexOn": ["role","status","schoolId","groupId"]
+    },
+    "students": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || root.child('users').child(auth.uid).child('role').val() === 'OWNER' || (root.child('users').child(auth.uid).child('role').val() === 'ADMIN' && root.child('adminScopes').child(auth.uid).child('schools').child(data.child('schoolId').val()).val() === true) || (root.child('users').child(auth.uid).child('role').val() === 'SUB-ADMIN' && root.child('users').child(auth.uid).child('groupId').val() === data.child('groupId').val()))",
+        ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'",
+        ".validate": "newData.hasChildren(['uid','name','email','role','status']) && newData.child('uid').val() === $uid && newData.child('role').val() === 'STUDENT'"
+      },
+      ".indexOn": ["schoolId","groupId","studentCode","status"]
+    },
+    "schoolStudents": {
+      "$schoolId": {
+        ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'OWNER' || (root.child('users').child(auth.uid).child('role').val() === 'ADMIN' && root.child('adminScopes').child(auth.uid).child('schools').child($schoolId).val() === true))",
+        ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'"
+      }
+    },
+    "groupStudents": {
+      "$groupId": {
+        ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'OWNER' || (root.child('users').child(auth.uid).child('role').val() === 'ADMIN' && root.child('adminScopes').child(auth.uid).child('schools').child(root.child('groups').child($groupId).child('schoolId').val()).val() === true) || (root.child('users').child(auth.uid).child('role').val() === 'SUB-ADMIN' && root.child('users').child(auth.uid).child('groupId').val() === $groupId))",
+        ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'"
+      }
+    },
+    "schools": { ".read": "auth != null", ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'" },
+    "groups": { ".read": "auth != null", ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'" },
+    "subjects": { ".read": "auth != null", ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'" },
+    "teachers": { ".read": "auth != null", ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'" },
+    "attendanceSessions": {
+      "$sessionId": {
+        ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'OWNER' || (root.child('users').child(auth.uid).child('role').val() === 'ADMIN' && root.child('adminScopes').child(auth.uid).child('schools').child(data.child('schoolId').val()).val() === true) || (root.child('users').child(auth.uid).child('role').val() === 'SUB-ADMIN' && root.child('users').child(auth.uid).child('groupId').val() === data.child('groupId').val()) || (root.child('users').child(auth.uid).child('role').val() === 'STUDENT' && root.child('users').child(auth.uid).child('groupId').val() === data.child('groupId').val()))",
+        ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'",
+        ".validate": "newData.hasChildren(['subjectId','groupId','schoolId','date','startTime','endTime','status','createdBy','createdAt']) && newData.child('status').val().matches(/^(OPEN|CLOSED)$/)"
+      },
+      ".indexOn": ["groupId","schoolId","subjectId","date","status"]
+    },
+    "attendance": {
+      "$sessionId": {
+        "$studentId": {
+          ".read": "auth != null && (auth.uid === $studentId || root.child('users').child(auth.uid).child('role').val() === 'OWNER' || (root.child('users').child(auth.uid).child('role').val() === 'ADMIN' && root.child('adminScopes').child(auth.uid).child('schools').child(root.child('students').child($studentId).child('schoolId').val()).val() === true) || (root.child('users').child(auth.uid).child('role').val() === 'SUB-ADMIN' && root.child('users').child(auth.uid).child('groupId').val() === root.child('students').child($studentId).child('groupId').val()))",
+          ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'",
+          ".validate": "newData.hasChildren(['studentId','groupId','schoolId','subjectId','status','recordedBy','recordedByRole','createdAt']) && newData.child('studentId').val() === $studentId && newData.child('status').val().matches(/^(PRESENT|ABSENT|LATE)$/)"
+        }
+      },
+      ".indexOn": ["studentId","groupId","schoolId","subjectId","status"]
+    },
+    "grades": {
+      ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'OWNER' || (query.orderByChild === 'studentId' && query.equalTo === auth.uid))",
+      "$gradeId": {
+        ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'OWNER' || data.child('studentId').val() === auth.uid || (root.child('users').child(auth.uid).child('role').val() === 'ADMIN' && root.child('adminScopes').child(auth.uid).child('schools').child(root.child('students').child(data.child('studentId').val()).child('schoolId').val()).val() === true))",
+        ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'",
+        ".validate": "newData.hasChildren(['studentId','subjectId','coursework','exam','final','percentage','grade','result','status']) && newData.child('status').val().matches(/^(PENDING|APPROVED)$/) && newData.child('result').val().matches(/^(PASS|FAIL)$/)"
+      },
+      ".indexOn": ["studentId","subjectId","status"]
+    },
+    "notifications": {
+      "$notificationId": {
+        ".read": "auth != null && (data.child('targetUserId').val() === auth.uid || root.child('users').child(auth.uid).child('role').val() === 'OWNER')",
+        ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'",
+        ".validate": "newData.hasChildren(['title','body','targetUserId','read','createdAt'])"
+      },
+      ".indexOn": ["targetUserId","read","createdAt"]
+    },
+    "adminRequests": {
+      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'",
+      ".indexOn": ["status","requestedRole","createdAt"]
+    },
+    "subAdmins": {
+      ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'OWNER' || root.child('users').child(auth.uid).child('role').val() === 'ADMIN')",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'",
+      ".indexOn": ["uid","schoolId","groupId","status"]
+    },
+    "adminScopes": {
+      "$uid": { ".read": "auth != null && (auth.uid === $uid || root.child('users').child(auth.uid).child('role').val() === 'OWNER')", ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'" }
+    },
+    "settings": { ".read": "auth != null", ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'" },
+    "files": { ".read": "auth != null", ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'", ".indexOn": ["schoolId","groupId","subjectId","status","createdAt"] },
+    "auditLogs": { ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'", ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'OWNER'", ".indexOn": ["performedBy","action","targetType","targetId","timestamp"] }
+  }
+}
