@@ -1,0 +1,144 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "users": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || auth.token.role === 'OWNER')",
+        ".write": false
+      },
+      ".read": "auth != null && auth.token.role === 'OWNER'"
+    },
+    "students": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || auth.token.role === 'OWNER' || (auth.token.role === 'ADMIN' && root.child('adminScopes').child(auth.uid).child('schools').child(data.child('schoolId').val()).exists()) || (auth.token.role === 'SUB-ADMIN' && data.child('groupId').val() === auth.token.groupId))",
+        ".write": false
+      },
+      ".read": "auth != null && auth.token.role === 'OWNER'",
+      ".indexOn": [
+        "schoolId",
+        "groupId",
+        "status"
+      ]
+    },
+    "adminScopes": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || auth.token.role === 'OWNER')",
+        ".write": false
+      }
+    },
+    "subAdmins": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || auth.token.role === 'OWNER')",
+        ".write": false
+      }
+    },
+    "schools": {
+      ".read": "auth != null && auth.token.role === 'OWNER'",
+      "$id": {
+        ".write": "auth != null && auth.token.role === 'OWNER'"
+      }
+    },
+    "groups": {
+      ".read": "auth != null && auth.token.role === 'OWNER'",
+      "$id": {
+        ".write": "auth != null && auth.token.role === 'OWNER'"
+      },
+      ".indexOn": [
+        "schoolId"
+      ]
+    },
+    "subjects": {
+      ".read": "auth != null && auth.token.role === 'OWNER'",
+      "$id": {
+        ".write": "auth != null && auth.token.role === 'OWNER'"
+      },
+      ".indexOn": [
+        "schoolId",
+        "groupId"
+      ]
+    },
+    "teachers": {
+      ".read": "auth != null",
+      "$id": {
+        ".write": "auth != null && auth.token.role === 'OWNER'"
+      }
+    },
+    "settings": {
+      ".read": "auth != null && auth.token.role === 'OWNER'",
+      ".write": "auth != null && auth.token.role === 'OWNER'"
+    },
+    "notifications": {
+      "$id": {
+        ".read": "auth != null && (auth.token.role === 'OWNER' || data.child('targetUserId').val() === auth.uid)",
+        ".write": false
+      },
+      ".read": "auth != null && auth.token.role === 'OWNER'"
+    },
+    "attendanceSessions": {
+      "$id": {
+        ".read": "auth != null && (auth.token.role === 'OWNER' || (auth.token.role === 'SUB-ADMIN' && data.child('groupId').val() === auth.token.groupId) || auth.token.role === 'ADMIN')",
+        ".write": false
+      },
+      ".read": false,
+      ".indexOn": [
+        "groupId",
+        "date"
+      ]
+    },
+    "attendance": {
+      "$session": {
+        "$student": {
+          ".read": "auth != null && (auth.token.role === 'OWNER' || auth.uid === $student)",
+          ".write": false
+        }
+      }
+    },
+    "grades": {
+      "$id": {
+        ".read": "auth != null && (auth.token.role === 'OWNER' || data.child('studentId').val() === auth.uid)",
+        ".write": false
+      },
+      ".read": "auth != null && auth.token.role === 'OWNER'",
+      ".indexOn": [
+        "studentId",
+        "subjectId"
+      ]
+    },
+    "files": {
+      "$id": {
+        ".read": "auth != null && auth.token.role === 'OWNER'",
+        ".write": false
+      },
+      ".read": false,
+      ".indexOn": [
+        "schoolId",
+        "groupId",
+        "createdAt"
+      ]
+    },
+    "auditLogs": {
+      ".read": "auth != null && auth.token.role === 'OWNER'",
+      ".write": false
+    },
+    "adminRequests": {
+      "$id": {
+        ".read": "auth != null && auth.token.role === 'OWNER'",
+        ".write": false
+      },
+      ".read": "auth != null && auth.token.role === 'OWNER'"
+    },
+    "schoolStudents": {
+      "$school": {
+        ".read": "auth != null && (auth.token.role === 'OWNER' || (auth.token.role === 'ADMIN' && root.child('adminScopes').child(auth.uid).child('schools').child($school).val() === true))",
+        ".write": false
+      }
+    },
+    "groupStudents": {
+      "$group": {
+        ".read": "auth != null && (auth.token.role === 'OWNER' || (auth.token.role === 'SUB-ADMIN' && auth.token.groupId === $group) || (auth.token.role === 'ADMIN' && root.child('adminScopes').child(auth.uid).child('groups').child($group).val() === true))",
+        ".write": false
+      }
+    }
+  }
+}
