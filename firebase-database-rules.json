@@ -1,0 +1,86 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "owner": {
+      ".read": true,
+      ".write": "auth != null && ((!data.exists() && newData.child('uid').val() == auth.uid) || data.child('uid').val() == auth.uid)"
+    },
+
+    "admins": {
+      ".read": "auth != null && (root.child('owner/uid').val() == auth.uid || root.child('admins').child(auth.uid).exists())",
+      "$uid": {
+        ".read": "auth != null && (auth.uid == $uid || root.child('owner/uid').val() == auth.uid)",
+        ".write": "auth != null && (root.child('owner/uid').val() == auth.uid || (auth.uid == $uid && data.exists() && newData.child('email').val() == data.child('email').val() && newData.child('role').val() == data.child('role').val()))"
+      }
+    },
+
+    "students": {
+      ".read": "auth != null",
+      "$uid": {
+        ".read": "auth != null && (auth.uid == $uid || root.child('owner/uid').val() == auth.uid || root.child('admins').child(auth.uid).exists())",
+        ".write": "auth != null && (root.child('owner/uid').val() == auth.uid || (root.child('admins').child(auth.uid).exists() && data.exists() && newData.child('name').val() == data.child('name').val() && newData.child('email').val() == data.child('email').val() && newData.child('phone').val() == data.child('phone').val() && newData.child('groupId').val() == data.child('groupId').val() && newData.child('schoolId').val() == data.child('schoolId').val() && newData.child('status').val() != data.child('status').val() && (newData.child('status').val() == 'active' || newData.child('status').val() == 'banned')) || (auth.uid == $uid && ((!data.exists() && newData.child('status').val() == 'pending') || (data.exists() && newData.child('status').val() == data.child('status').val() && newData.child('uid').val() == data.child('uid').val() && newData.child('groupId').val() == data.child('groupId').val() && newData.child('schoolId').val() == data.child('schoolId').val()))))"
+      }
+    },
+
+    "schools": {
+      ".read": "auth != null",
+      "$schoolId": {
+        ".write": "auth != null && root.child('owner/uid').val() == auth.uid"
+      }
+    },
+
+    "groups": {
+      ".read": "auth != null",
+      "$groupId": {
+        ".write": "auth != null && root.child('owner/uid').val() == auth.uid"
+      }
+    },
+
+    "subjects": {
+      ".read": "auth != null",
+      "$subjectId": {
+        ".write": "auth != null && root.child('owner/uid').val() == auth.uid"
+      }
+    },
+
+    "grades": {
+      ".read": "auth != null && (root.child('owner/uid').val() == auth.uid || root.child('admins').child(auth.uid).exists())",
+      "$studentUid": {
+        ".read": "auth != null && (auth.uid == $studentUid || root.child('owner/uid').val() == auth.uid || root.child('admins').child(auth.uid).exists())",
+        ".write": "auth != null && root.child('owner/uid').val() == auth.uid"
+      }
+    },
+
+    "attendance": {
+      ".read": "auth != null",
+      "$groupId": {
+        "$date": {
+          "$studentUid": {
+            ".write": "auth != null && (root.child('owner/uid').val() == auth.uid || root.child('groups').child($groupId).child('adminIds').child(auth.uid).val() == true)"
+          }
+        }
+      }
+    },
+
+    "notifications": {
+      ".read": "auth != null",
+      "$notificationId": {
+        ".write": "auth != null && (root.child('owner/uid').val() == auth.uid || root.child('admins').child(auth.uid).exists())"
+      }
+    },
+
+    "notifRead": {
+      "$uid": {
+        ".read": "auth != null && auth.uid == $uid",
+        ".write": "auth != null && auth.uid == $uid"
+      }
+    },
+
+    "ownerExperience": {
+      ".read": "auth != null && root.child('owner/uid').val() == auth.uid",
+      ".write": "auth != null && root.child('owner/uid').val() == auth.uid"
+    }
+  }
+}
