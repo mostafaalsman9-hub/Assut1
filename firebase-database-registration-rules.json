@@ -1,0 +1,11 @@
+{
+  "rules": {
+    "students": {
+      ".read": "auth != null && (root.child('owner/uid').val() == auth.uid || root.child('admins').child(auth.uid).exists())",
+      "$uid": {
+        ".read": "auth != null && (auth.uid == $uid || root.child('owner/uid').val() == auth.uid || root.child('admins').child(auth.uid).exists())",
+        ".write": "auth != null && (root.child('owner/uid').val() == auth.uid || root.child('admins').child(auth.uid).exists() || (auth.uid == $uid && ((!data.exists() && newData.child('status').val() == 'pending') || (data.exists() && newData.child('status').val() == data.child('status').val()))))"
+      }
+    }
+  }
+}
