@@ -1,0 +1,329 @@
+/* Visual layer for the existing علوم الرياضة site. */
+.auth-page {
+  background:
+    linear-gradient(90deg, rgba(5, 14, 27, .74), rgba(5, 14, 27, .35)),
+    url("./IMG_20260923_173158_835_1790173983531.jpg") center / cover no-repeat fixed;
+}
+
+.auth-page:before {
+  content: "";
+  background: linear-gradient(180deg, rgba(255, 190, 58, .08), rgba(0, 0, 0, .3));
+  border-radius: 0;
+  inset: 0;
+}
+
+.auth-card {
+  z-index: 1;
+  background: rgba(7, 20, 36, .88);
+  border: 1px solid rgba(255, 205, 86, .5);
+  border-radius: 22px;
+  color: #fff;
+  box-shadow: 0 22px 70px rgba(0, 0, 0, .38);
+  backdrop-filter: blur(8px);
+}
+
+.auth-card .brand-lockup .mark {
+  color: transparent;
+   background: url("./IMG_20260923_173158_131_1790175684541.jpg") center / cover no-repeat;
+  border: 2px solid #e9b94d;
+  box-shadow: 0 8px 24px rgba(232, 177, 54, .35);
+}
+
+.auth-card .brand-lockup .mark svg {
+  display: none;
+}
+
+.auth-card .brand-lockup h1,
+.auth-card .field label {
+  color: #fff;
+}
+
+.auth-card .brand-lockup p,
+.auth-card .auth-note {
+  color: #d6dce3;
+}
+
+.auth-card .field input,
+.auth-card .field select,
+.auth-card .field textarea {
+  color: #15263a;
+  background: #fff;
+  border-color: #d9b354;
+}
+
+.auth-card .auth-tabs {
+  background: rgba(255, 255, 255, .1);
+}
+
+.auth-card .auth-tabs button {
+  color: #dce3ea;
+}
+
+.auth-card .auth-tabs button.active {
+  color: #17263b;
+}
+
+.auth-card .button.primary,
+.auth-card .install-app-button {
+  color: #17263b;
+  background: linear-gradient(135deg, #f9d675, #d99a22);
+  border-color: #f9d675;
+  box-shadow: 0 7px 18px rgba(216, 157, 37, .3);
+}
+
+.auth-card .install-app-button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.app-shell .topbar .mark {
+  color: transparent;
+  background: url("./IMG_20260923_173158_131_1790175684541.jpg") center / cover no-repeat;
+  border: 1px solid #d9aa3f;
+}
+
+.app-shell .topbar .mark svg {
+  display: none;
+}
+
+.app-shell .hero-panel {
+  background:
+    linear-gradient(90deg, rgba(7, 25, 43, .86), rgba(15, 84, 73, .72)),
+    url("./IMG_20260923_173158_835_1790173983531.jpg") center / cover no-repeat;
+  border: 1px solid rgba(226, 181, 66, .5);
+}
+
+.about-platform-card {
+  margin-bottom: 22px;
+  border-color: #e1c46e;
+}
+
+.about-platform-label {
+  color: #5d7371;
+  display: block;
+  margin-bottom: 7px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.about-platform-text {
+  color: #234744;
+  background: #fbfdfd;
+  border: 1px solid #cfdddb;
+  border-radius: 10px;
+  outline: none;
+  padding: 11px 12px;
+  resize: vertical;
+  width: 100%;
+  min-height: 120px;
+  font-size: 13px;
+}
+
+.about-platform-text:focus {
+  border-color: #c99427;
+  box-shadow: 0 0 0 3px rgba(201, 148, 39, .16);
+}
+
+.about-platform-actions {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.about-platform-status {
+  color: #6f8180;
+  font-size: 12px;
+}
+
+@media (max-width: 720px) {
+  .auth-page {
+    padding: 14px;
+    background-position: 62% center;
+  }
+
+  .auth-card {
+    padding: 23px 18px;
+  }
+
+  .about-platform-actions {
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+}
+
+/* Login page: match the supplied علوم الرياضة landing-page artwork. */
+.auth-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: clamp(16px, 4vw, 42px);
+  background:
+    linear-gradient(90deg, rgba(3, 14, 28, .38), rgba(3, 14, 28, .14)),
+    url("./IMG_20260923_173158_835_1790173983531.jpg") center / cover no-repeat;
+}
+
+.auth-page:before {
+  background: linear-gradient(180deg, rgba(2, 13, 28, .18), rgba(2, 13, 28, .48));
+  border-radius: 0;
+  inset: 0;
+}
+
+.auth-card {
+  width: min(410px, 100%);
+  padding: 29px 26px 24px;
+  background: rgba(4, 18, 35, .94);
+  border: 1px solid rgba(247, 195, 67, .88);
+  border-radius: 20px;
+  box-shadow: 0 18px 55px rgba(0, 0, 0, .48), 0 0 24px rgba(246, 185, 44, .16);
+  backdrop-filter: blur(10px);
+}
+
+.auth-card .brand-lockup {
+  margin-bottom: 20px;
+}
+
+.auth-card .brand-lockup .mark {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  border: 2px solid #f1bd45;
+  box-shadow: 0 0 18px rgba(241, 189, 69, .34);
+}
+
+.auth-card .brand-lockup h1 {
+  color: #ffd66e;
+  font-size: 20px;
+}
+
+.auth-card .brand-lockup p,
+.auth-card .auth-note {
+  color: #e1e7ec;
+}
+
+.auth-card .auth-tabs {
+  background: rgba(255, 255, 255, .1);
+}
+
+.auth-card .auth-tabs button {
+  color: #e3e8ec;
+}
+
+.auth-card .auth-tabs button.active {
+  color: #1e2936;
+  background: linear-gradient(135deg, #ffdc78, #d99a27);
+}
+
+.auth-card .field label {
+  color: #f5d27a;
+}
+
+.auth-card .field input,
+.auth-card .field select,
+.auth-card .field textarea {
+  color: #1d2a37;
+  background: #fff;
+  border-color: #d7aa42;
+}
+
+.auth-card .button.primary {
+  color: #182637;
+  background: linear-gradient(135deg, #ffe18a, #dfa32c);
+  border-color: #f6c34f;
+  box-shadow: 0 7px 18px rgba(214, 153, 33, .34);
+}
+
+.auth-card .button.ghost {
+  color: #f8d778;
+}
+
+.install-app-button {
+  width: 100%;
+  min-height: 58px;
+  margin-top: 13px;
+  padding: 7px 10px;
+  justify-content: flex-start;
+  text-align: right;
+  color: #ffe08a;
+  background: linear-gradient(135deg, rgba(255, 213, 102, .18), rgba(255, 255, 255, .06));
+  border: 1px solid rgba(255, 208, 83, .72);
+  border-radius: 15px;
+}
+
+.install-app-button:hover {
+  color: #fff;
+  background: linear-gradient(135deg, rgba(255, 213, 102, .3), rgba(255, 255, 255, .1));
+  border-color: #ffe08a;
+}
+
+.install-app-icon {
+  width: 39px;
+  height: 39px;
+  flex: 0 0 39px;
+  object-fit: cover;
+  border: 1px solid #f2c14c;
+  border-radius: 11px;
+}
+
+.install-app-copy {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.install-app-copy strong {
+  font-size: 13px;
+}
+
+.install-app-copy small {
+  color: #e3e7e9;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.install-app-arrow {
+  color: #1b2b3a;
+  background: #f7cc5c;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  width: 31px;
+  height: 31px;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.admin-grade-readonly {
+  color: #214c48;
+  display: inline-block;
+  min-width: 80px;
+  padding: 8px 10px;
+  background: #f1f7f5;
+  border: 1px solid #d4e6e1;
+  border-radius: 8px;
+  text-align: center;
+}
+
+@media (min-width: 1000px) {
+  .auth-card {
+    transform: translateX(18vw);
+  }
+}
+
+@media (max-width: 720px) {
+  .auth-page {
+    align-items: flex-end;
+    background-position: 42% center;
+    padding: 14px;
+  }
+
+  .auth-card {
+    transform: none;
+    max-height: calc(100dvh - 28px);
+    overflow-y: auto;
+  }
+}

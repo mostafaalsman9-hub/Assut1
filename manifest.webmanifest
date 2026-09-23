@@ -1,0 +1,28 @@
+{
+  "name": "منصة علوم الرياضة - جامعة أسيوط",
+  "short_name": "علوم الرياضة",
+  "description": "منصة الحضور والبيانات الأكاديمية لكلية علوم الرياضة بجامعة أسيوط.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./index_1790170758187.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#081728",
+  "theme_color": "#081728",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "./IMG_20260923_173158_131_1790175684541.jpg",
+      "sizes": "1024x1024",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "فتح المنصة",
+      "short_name": "المنصة",
+      "url": "./index_1790170758187.html"
+    }
+  ]
+}
